@@ -1,0 +1,334 @@
+/* Fondo general */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9a8d4; /* rosa pastel */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Header fijo */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #f9a8d4; /* mismo rosa que body */
+  padding: 16px 12px;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+/* Neblina notable en la parte inferior del header */
+header::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(249,168,212, 1) 0%,
+    rgba(249,168,212, 0.9) 40%,
+    rgba(249,168,212, 0.5) 70%,
+    rgba(249,168,212, 0) 100%
+  );
+}
+
+/* Icono + */
+#addIcon {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+  z-index: 1100;
+}
+
+/* Contenedor tarjetas */
+#cardsContainer {
+  margin-top: 70px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tarjeta */
+.card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  padding-bottom: 48px;
+  margin: 12px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 85%;
+  max-width: 380px;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Input principal */
+.card .main-input {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* Input secundario */
+.card .secondary-input {
+  font-size: 14px;
+  color: #666;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* Botón eliminar */
+.delete-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 4px;
+}
+
+.delete-btn:hover {
+  color: #e74c3c;
+}
+
+/* Botón guardar y editar */
+.save-btn,
+.edit-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 4px;
+}
+
+.save-btn:hover {
+  color: #2ecc71;
+}
+
+.edit-btn:hover {
+  color: #3498db;
+}
+
+/* Botón agregar detalles */
+.details-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 40px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 4px;
+}
+
+.details-btn:hover {
+  color: #9b59b6;
+}
+
+/* Contenedor de detalles */
+.details-container {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.details-container .detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details-container .detail-row label {
+  font-size: 14px;
+  color: #555;
+}
+
+.details-container .detail-row input {
+  width: 60%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Tags */
+.tags-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin-top: 4px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tag {
+  flex: 0 0 auto;
+  background: #9333ea;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* --- Swipe --- */
+.swipe-wrapper {
+  position: relative;
+  width: 85%;
+  max-width: 380px;
+  margin: 12px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.swipe-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 160px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(249, 168, 212, 0.5);
+  z-index: 0;
+  border-radius: 0 12px 12px 0;
+  padding: 0 8px;
+}
+
+.swipe-btn {
+  flex: 1;
+  margin: 0 4px;
+  padding: 8px 0;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.complete-btn {
+  background-color: #10b981;
+}
+
+.remove-btn {
+  background-color: #ef4444;
+}
+
+.swipe-card {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  background-color: white;
+  border-radius: 12px;
+  box-sizing: border-box;
+  padding: 16px;
+  padding-bottom: 48px;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.swipe-card.closed {
+  transform: translateX(0);
+}
+
+/* Completadas */
+.completed {
+  background-color: #f0f0f0;
+  color: #999;
+  opacity: 0.6;
+  text-decoration: line-through;
+  transition: all 0.3s ease;
+}
+
+/* Inputs en swipe-card */
+.swipe-card .main-input {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+}
+
+.swipe-card .secondary-input {
+  font-size: 14px;
+  color: #666;
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+}
+
+.swipe-card select {
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* --- Filtro --- */
+.filter-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  z-index: 1200;
+}
+
+#filterIcon {
+  cursor: pointer;
+  font-size: 22px;
+  margin-left: 10px;
+  display: inline-block;
+  position: relative;
+}
+
+#filterIcon::before {
+  content: "🔽"; /* símbolo de embudo visible */
+  font-size: 22px;
+  color: #333;
+  display: inline-block;
+}
+
+#filterSelect {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  display: none;
+  margin-top: 4px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: white;
+  font-size: 14px;
+  z-index: 1300;
+}

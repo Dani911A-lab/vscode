@@ -70,6 +70,19 @@ Array.from(filterMenu.children).forEach(option => {
   });
 });
 
+const welcomeMessage = document.createElement("div");
+welcomeMessage.id = "welcomeMessage";
+welcomeMessage.textContent = "Bienvenida Andreita a tu espacio de trabajo, Preciona el icono de (+) de la parte superior izquierda.";
+welcomeMessage.style.position = "absolute";
+welcomeMessage.style.top = "50%";
+welcomeMessage.style.left = "50%";
+welcomeMessage.style.transform = "translate(-50%, -50%)";
+welcomeMessage.style.fontSize = "18px";
+welcomeMessage.style.color = "#555";
+welcomeMessage.style.textAlign = "center";
+welcomeMessage.style.pointerEvents = "none"; // no interfiere con clics
+cardsContainer.appendChild(welcomeMessage);
+
 addIcon.addEventListener("click", () => {
   const card = document.createElement("div");
   card.className = "card";

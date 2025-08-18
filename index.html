@@ -3,30 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tareas - Demo</title>
+  <title>Hoy - Lista de Tareas</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header con icono + y filtro -->
-  <header class="header">
-    <span id="addIcon">+</span>
-    <div class="filter-container">
-      <!-- Icono de embudo en SVG -->
-      <svg id="filterIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M6 10.117V16l4-2.5v-3.383L15.803 2H.197L6 10.117z"/>
-      </svg>
-      <select id="filterSelect">
-        <option value="all">Todas</option>
-        <option value="completed">Completadas</option>
-        <option value="pending">Pendientes</option>
-        <option value="highlighted">Destacadas</option>
-      </select>
-    </div>
-  </header>
+  <div class="container">
+    <!-- Encabezado -->
+    <header>
+      <h1>Hoy</h1>
+      <span class="task-count">0 tareas</span>
 
-  <!-- Contenedor de tarjetas -->
-  <main id="cardsContainer"></main>
+      <!-- Botón añadir -->
+      <div class="add-task" id="addTaskBtn">
+        <span>+ Añadir tarea</span>
+      </div>
+    </header>
 
+    <!-- Lista de tareas (arranca vacía) -->
+    <ul class="task-list" id="taskList"></ul>
+  </div>
+
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>

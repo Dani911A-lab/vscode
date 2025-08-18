@@ -6,7 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cargar sonidos
   const soundAdd = new Audio('add.mp3');       // sonido al añadir
   const soundDelete = new Audio('delete.mp3'); // sonido al eliminar
-  const soundDone = new Audio('done.mp3');     // sonido al marcar completada
+  const soundDone = new Audio('done.mp3');
+  soundDone.volume = 0.2;    // sonido al marcar completada
+  soundAdd.volume = 0.3;
+  soundDelete.volume = 0.3;
 
   // Actualiza el contador
   function updateTaskCount() {

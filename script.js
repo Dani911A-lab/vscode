@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const taskList = document.getElementById("taskList");
   const taskCountEl = document.querySelector(".task-count");
 
+  // Cargar sonidos
+  const soundAdd = new Audio('add.mp3');       // sonido al añadir
+  const soundDelete = new Audio('delete.mp3'); // sonido al eliminar
+  const soundDone = new Audio('done.mp3');     // sonido al marcar completada
+
   // Actualiza el contador
   function updateTaskCount() {
     const total = taskList.querySelectorAll(".task-item").length;
@@ -15,38 +20,51 @@ document.addEventListener("DOMContentLoaded", () => {
     li.classList.add("task-item");
 
     li.innerHTML = `
-  <input type="checkbox">
-  <div class="task-content">
-    <span class="task-title" contenteditable="true" data-placeholder="Nueva tarea..."></span>
-    <span class="task-meta" contenteditable="true" data-placeholder="Detalle..."></span>
-  </div>
-  <button class="delete-task">✕</button>
-`;
-
+      <input type="checkbox">
+      <div class="task-content">
+        <span class="task-title" contenteditable="true" data-placeholder="Nueva tarea..."></span>
+        <span class="task-meta" contenteditable="true" data-placeholder="Detalle..."></span>
+      </div>
+      <button class="delete-task">✕</button>
+    `;
 
     // Insertar la nueva tarea al inicio
     taskList.insertBefore(li, taskList.firstChild);
 
-    // Evento para eliminar tarea
+    // Placeholders
+    const editableElements = li.querySelectorAll('[contenteditable="true"]');
+    editableElements.forEach(el => {
+      el.addEventListener('focus', () => {
+        if(el.textContent === '') el.textContent = '';
+      });
+    });
+
+    // Checkbox: marcar como completada
+    const checkbox = li.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        li.classList.add('completed');
+        soundDone.play();
+      } else {
+        li.classList.remove('completed');
+      }
+    });
+
+    // Botón eliminar
     li.querySelector(".delete-task").addEventListener("click", () => {
       li.remove();
       updateTaskCount();
+      soundDelete.play();
     });
-
-    const checkbox = li.querySelector('input[type="checkbox"]');
-checkbox.addEventListener('change', () => {
-  if (checkbox.checked) {
-    li.classList.add('completed');
-  } else {
-    li.classList.remove('completed');
-  }
-});
 
     // Actualizar contador
     updateTaskCount();
 
     // Poner foco en el título editable
     li.querySelector(".task-title").focus();
+
+    // Sonido al añadir
+    soundAdd.play();
   }
 
   // Evento click en "+ Añadir tarea"

@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (checkbox.checked) {
         li.classList.add('completed');
         soundDone.play();
+        if (navigator.vibrate) navigator.vibrate(100); // vibración
       } else {
         li.classList.remove('completed');
       }
@@ -55,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       li.remove();
       updateTaskCount();
       soundDelete.play();
+      if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
     });
 
     // Actualizar contador
@@ -63,8 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Poner foco en el título editable
     li.querySelector(".task-title").focus();
 
-    // Sonido al añadir
+    // Sonido y vibración al añadir
     soundAdd.play();
+    if (navigator.vibrate) navigator.vibrate(50);
   }
 
   // Evento click en "+ Añadir tarea"

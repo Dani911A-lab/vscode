@@ -1,130 +1,285 @@
+/* ------------------------------- */
+/* 🎨 Fondo general estilo Apple */
+/* ------------------------------- */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  background: #fff;
   margin: 0;
-  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, #f8caff, #a0b2fa, #75ff8c);
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #1d1d1f;
+}
+
+/* ------------------------------- */
+/* 🖥️ Ventana estilo aplicación */
+/* ------------------------------- */
+.window {
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+/* ------------------------------- */
+/* 🔝 Barra superior (titlebar macOS) */
+/* ------------------------------- */
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid #d4d2d2;
+  background: #f9f9f9;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 6px;
+}
+
+.traffic-lights span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.traffic-lights .red { background: #ff5f56; }
+.traffic-lights .yellow { background: #ffbd2e; }
+.traffic-lights .green { background: #27c93f; }
+
+.view-buttons button {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  margin: 0 4px;
+  cursor: pointer;
   color: #333;
 }
 
-.container {
-  max-width: 90%;       /* Por defecto ocupa casi toda la pantalla */
-  margin: auto;
+.view-buttons button:hover {
+  color: #007aff;
 }
 
-header {
+.search {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 13px;
+  margin-right: 25px;
+}
+
+/* ------------------------------- */
+/* 📑 Contenido dividido en paneles */
+/* ------------------------------- */
+.content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ------------------------------- */
+/* 📋 Panel izquierdo (lista tareas) */
+/* ------------------------------- */
+.left-panel {
+  flex: 3;
+  border-right: 1px solid #e5e5e5;
+  padding: 20px;
+  background: #fff;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 100;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
 }
 
-header h1 {
-  font-size: 24px;
+.date-header h1 {
+  font-size: 32px;
+  font-weight: 700;
   margin: 0;
-  font-weight: 600;
 }
 
-.task-count {
-  font-size: 14px;
-  color: #777;
-  margin-top: 4px;
+.date-header span {
+  font-weight: 400;
+  color: #6e6e73;
+}
+
+.date-header p {
+  margin: 4px 0 20px;
+  font-size: 18px;
+  color: #6e6e73;
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tasks-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .add-task {
-  margin-top: 10px;
-  color: #d9534f;
-  font-size: 14px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: #52a5ff;
+  color: #fff;
+  font-size: 18px;
   cursor: pointer;
-  font-weight: 500;
+}
+
+.add-task:hover {
+  background: #005ecb;
 }
 
 .task-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  flex: 1;               
+  overflow-y: auto;      
+  padding-right: 6px;    
 }
 
-.task-item {
+.task-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.task {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #dcdcdc;
   display: flex;
-  align-items: flex-start;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  background: #fff;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  align-items: center;
+  gap: 6px;
+  cursor: pointer; 
+  transition: background 0.2s, transform 0.1s;
 }
 
-.task-item input[type="checkbox"] {
-  margin-right: 10px;
-  margin-top: 5px;
-  outline: none;
+
+.task.gray:hover { background: #f5f5f7; }
+.task.priority-medium:hover { background: #fff3e0; }
+.task.priority-high:hover { background: #fee2e2; }
+
+.task.red { color: #d70015; }
+.task.yellow { color: #e2a200; }
+.task.gray { color: #555; }
+
+.task-date { font-size: 11px; color: #888; }
+.task-input { flex: 1; border: none; font-size: 14px; padding: 4px; outline: none; }
+.task.editing { border-bottom: 1px solid #efefef; }
+
+/* ------------------------------- */
+/* Barra de completado */
+.completion-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0%;
+  background: #34c759; /* verde iOS */
+  border-radius: 1px;
+  transition: width 0.1s linear;
 }
 
-.task-content {
+/* ------------------------------- */
+/* 📆 Panel derecho */
+.right-panel {
+  flex: 1; 
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: 20px;
+  background: #fafafa;
 }
 
-.task-title, .task-meta {
-  font-size: 15px;
-  font-weight: 400;
-  margin-bottom: 4px;
-  outline: none; /* Quitar contorno al editar */
+.mini-calendar {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.task-title:empty::before,
-.task-meta:empty::before {
-  content: attr(data-placeholder);
-  color: #bbb;
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.task-item.completed {
-  opacity: 0.5;           /* hace que se vea tenue */
-}
-
-.task-item.completed .task-title,
-.task-item.completed .task-meta {
-  text-decoration: line-through;  /* tachado */
-  color: #999;
-}
-
-.task-meta {
-  font-size: 12px;
-  color: #999;
-}
-
-.delete-task {
-  background: transparent;
+.calendar-header button {
   border: none;
-  color: #d9534f;
-  font-size: 16px;
+  background: transparent;
+  font-size: 12px;
   cursor: pointer;
-  margin-left: 10px;
+  color: #333;
 }
 
-/* --- RESPONSIVE --- */
-@media (min-width: 768px) {
-  .container {
-    max-width: 800px;  /* En PC ocupa más ancho */
-  }
+.calendar-header .today-btn { font-weight: 600; color: #007aff; }
 
-  header h1 {
-    font-size: 32px;
-  }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 2px; font-size: 12px; }
+.days div { padding: 6px 0; border-radius: 6px; }
+.days .today { background: #007aff; color: #fff; }
+.days .prev, .days .next { color: #ccc; }
 
-  .task-title {
-    font-size: 18px;
-  }
+.task-detail { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 14px; }
+.task-detail h3 { margin-top: 0; font-size: 16px; font-weight: 600; }
+.detail-section { margin-top: 10px; }
+.detail-section label { display: block; font-size: 12px; color: #6e6e73; text-transform: uppercase; margin-bottom: 2px; }
 
-  .task-meta {
-    font-size: 14px;
-  }
+/* ------------------------------- */
+/* 🔹 Bolitas de prioridad y estados */
+.priority-dots { display: flex; gap: 4px; }
+.priority-dot { width: 8px; height: 8px; border-radius: 50%; cursor: pointer; transition: transform 0.2s ease; }
+.priority-dot:hover { transform: scale(1.2); }
+.priority-dot.orange { background: #fdd162; }
+.priority-dot.red { background: #fcb2b2; }
+
+.task.priority-medium { background: #fbf8d3; }
+.task.priority-high { background: #ffe9e9; }
+
+.delete-task { font-size: 14px; color: #888; margin-left: auto; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
+.task:hover .delete-task { opacity: 1; }
+.delete-task:hover { color: #fcbbb8; }
+
+.tasks-controls { display: flex; align-items: center; gap: 6px; }
+
+.filter-priority { font-size: 20px; background: transparent; border: none; cursor: pointer; color: #888; transition: color 0.2s; }
+.filter-priority:hover { color: #007aff; }
+
+.filter-dropdown { position: relative; display: inline-block; margin-left: 6px; }
+
+.filter-btn {
+  border: none;
+  background: transparent;
+  padding: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: background 0.2s, color 0.2s;
 }
+
+.filter-btn:hover { background: rgba(0,0,0,0.05); color: #007aff; }
+.filter-btn img { width: 22px; height: 22px; display: block; }
+
+.filter-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #dcdcdc; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); list-style: none; margin: 4px 0 0 0; padding: 4px 0; min-width: 80px; z-index: 10; }
+.filter-menu li { padding: 4px 12px; cursor: pointer; font-size: 13px; }
+.filter-menu li:hover { background: #f0f0f0; }
+.filter-dropdown.open .filter-menu { display: block; }

@@ -270,6 +270,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!e.target.closest(".task") && !e.target.closest(".add-task") && !e.target.closest(".filter-btn") && !e.target.closest(".filter-menu")){
       if(editingTask) exitEditMode(editingTask);
       filterDropdown.classList.remove("open");
+      // cerrar cuadro campana si se hace click fuera
+      const bellBox = document.querySelector(".bell-popup");
+      if(bellBox) bellBox.remove();
     }
   });
 
@@ -440,12 +443,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------
-  // Notificaciones campanita
+  // Notificaciones campanita + cuadro + sonido
   // -------------------------------
+  const notificationAudio = new Audio("NOTE.MP3");
+
   function checkUpcomingTasks(){
     const now = new Date();
     const hours = now.getHours();
-    if(hours < 9) return; // Solo de 9AM hasta 11:59PM
+    if(hours < 9 || hours > 23) return; // Solo entre 9am y 23:59
+
+    const upcomingTasks = [];
 
     taskItems.forEach(task=>{
       const scheduledEl = task.querySelector(".scheduled-date");
@@ -456,42 +463,61 @@ document.addEventListener("DOMContentLoaded", () => {
       const diffTime = scheduledDate - now;
       const diffDays = Math.ceil(diffTime / (1000*60*60*24));
 
-      if(diffDays <= 3 && diffDays >=0 && !task.classList.contains("notified")){
-        if(Notification.permission==="granted"){
-          new Notification("Tarea próxima", {
-            body: `${task.querySelector(".task-text").textContent} vence en ${diffDays} día${diffDays!==1?'s':''}.`,
-            icon: "https://cdn-icons-png.flaticon.com/512/1827/1827349.png"
-          });
+      if(diffDays <=3 && diffDays >=0){
+        upcomingTasks.push({task, diffDays});
+        if(!task.classList.contains("notified")){
+          if(Notification.permission==="granted"){
+            new Notification("Tarea próxima", {
+              body: `${task.querySelector(".task-text").textContent} vence en ${diffDays} día${diffDays!==1?'s':''}.`,
+              icon: "https://cdn-icons-png.flaticon.com/512/1827/1827349.png"
+            });
+          }
+          task.style.border="2px solid #ff9500";
+          task.classList.add("notified");
         }
-
-        // Sonido
-        const audio = new Audio("NOTE.MP3");
-        audio.play();
-
-        task.style.border="2px solid #ff9500";
-        task.classList.add("notified");
       }
     });
+
+    if(upcomingTasks.length>0){
+      notificationAudio.play().catch(err=>console.log("Audio bloqueado hasta interacción del usuario"));
+    }
+
+    return upcomingTasks;
   }
 
-  if(Notification.permission!=="granted") Notification.requestPermission();
-  setInterval(checkUpcomingTasks,1000*60*60*2); // Cada 2 horas
-
   notificationBell.addEventListener("click", ()=>{
-    taskItems.forEach(task=>{
-      const scheduledEl = task.querySelector(".scheduled-date");
-      if(!scheduledEl) return;
-      const scheduledStr = scheduledEl.textContent;
-      if(!scheduledStr) return;
-      const scheduledDate = new Date(scheduledStr);
-      const diffDays = Math.ceil((scheduledDate-new Date())/(1000*60*60*24));
-      if(diffDays <=3 && diffDays>=0){
-        task.scrollIntoView({behavior:"smooth", block:"center"});
-        task.style.background="#fff3cd";
-        setTimeout(()=> task.style.background="",3000);
-      }
-    });
+    const bellBox = document.querySelector(".bell-popup");
+    if(bellBox) { bellBox.remove(); return; }
+
+    const tasks = checkUpcomingTasks();
+    const popup = document.createElement("div");
+    popup.classList.add("bell-popup");
+    popup.style.position="absolute";
+    popup.style.top="35px";
+    popup.style.left="0";
+    popup.style.minWidth="200px";
+    popup.style.background="#fff";
+    popup.style.border="1px solid #ccc";
+    popup.style.borderRadius="6px";
+    popup.style.padding="10px";
+    popup.style.boxShadow="0 4px 8px rgba(0,0,0,0.1)";
+    popup.style.zIndex="999";
+
+    if(tasks.length===0){
+      popup.textContent="No hay tareas próximas";
+    } else {
+      tasks.forEach(({task, diffDays})=>{
+        const t = document.createElement("div");
+        t.textContent = `${task.querySelector(".task-text").textContent} - vence en ${diffDays} día${diffDays!==1?'s':''}`;
+        t.style.padding="2px 0";
+        popup.appendChild(t);
+      });
+    }
+    notificationBell.parentElement.appendChild(popup);
   });
+
+  if(Notification.permission!=="granted") Notification.requestPermission();
+  setInterval(checkUpcomingTasks,15000); // cada 15 segundos
 
   // -------------------------------
   // Inicializar
